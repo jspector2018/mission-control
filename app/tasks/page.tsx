@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "convex/react";
+import { useRouter } from "next/navigation";
 import { api } from "@/convex/_generated/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +22,7 @@ const priorityColors = {
 };
 
 export default function TasksPage() {
+  const router = useRouter();
   const tasks = useQuery(api.tasks.list);
   const agents = useQuery(api.agents.list);
   const missions = useQuery(api.missions.list);
@@ -72,6 +74,7 @@ export default function TasksPage() {
                     <Card
                       key={task._id}
                       className="cursor-pointer hover:border-primary transition-colors"
+                      onClick={() => router.push(`/tasks/${task._id}`)}
                     >
                       <CardContent className="p-4 space-y-3">
                         <div>

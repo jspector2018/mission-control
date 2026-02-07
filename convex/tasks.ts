@@ -17,6 +17,28 @@ export const getByStatus = query({
   },
 });
 
+export const get = query({
+  args: { id: v.id("tasks") },
+  handler: async (ctx, args) => {
+    const task = await ctx.db.get(args.id);
+    if (!task) return null;
+
+    const mission = task.missionId
+      ? await ctx.db.get(task.missionId)
+      : null;
+
+    const assignees = await Promise.all(
+      task.assigneeIds.map((id) => ctx.db.get(id))
+    );
+
+    return {
+      ...task,
+      mission,
+      assignees: assignees.filter(Boolean),
+    };
+  },
+});
+
 export const create = mutation({
   args: {
     title: v.string(),

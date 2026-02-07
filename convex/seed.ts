@@ -269,6 +269,31 @@ export const seedData = mutation({
       createdAt: Date.now() - 18000000,
     });
 
+    // Seed some messages on tasks
+    const allMessages = await ctx.db.query("messages").collect();
+    for (const msg of allMessages) await ctx.db.delete(msg._id);
+
+    await ctx.db.insert("messages", {
+      taskId: task1,
+      fromAgentId: builder,
+      content: "Scaffolded Next.js + Convex project. Schema deployed with 6 tables, all queries/mutations written. Working on frontend components now.",
+      createdAt: Date.now() - 3000000,
+    });
+
+    await ctx.db.insert("messages", {
+      taskId: task1,
+      fromAgentId: mike,
+      content: "Nice work. I'll take over the Tailwind v4 compat fixes and Vercel deployment. Push what you have.",
+      createdAt: Date.now() - 2400000,
+    });
+
+    await ctx.db.insert("messages", {
+      taskId: task1,
+      fromAgentId: mike,
+      content: "Dashboard is live at mission-control-sigma-swart.vercel.app 🚀 Convex seeded with real data.",
+      createdAt: Date.now() - 600000,
+    });
+
     return { success: true, message: "Database seeded successfully!" };
   },
 });
