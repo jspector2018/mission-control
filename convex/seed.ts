@@ -77,8 +77,8 @@ export const seedData = mutation({
       name: "Kalshi Trading",
       status: "active",
       description: "Generate returns from prediction markets",
-      goal: "Consistent 15-20% monthly returns",
-      revenue: 127.50,
+      goal: "$50 seed → grow through weather trades",
+      revenue: 0,
     });
 
     const freelanceMission = await ctx.db.insert("missions", {
@@ -171,7 +171,7 @@ export const seedData = mutation({
 
     // Seed Trades
     await ctx.db.insert("trades", {
-      market: "NYC ≤23°F",
+      market: "NYC High ≤23°F",
       side: "YES",
       contracts: 62,
       price: 0.04,
@@ -180,7 +180,7 @@ export const seedData = mutation({
     });
 
     await ctx.db.insert("trades", {
-      market: "NYC 24-25°F",
+      market: "NYC High 24-25°F",
       side: "YES",
       contracts: 35,
       price: 0.07,
@@ -189,7 +189,7 @@ export const seedData = mutation({
     });
 
     await ctx.db.insert("trades", {
-      market: "LA 74-75°F",
+      market: "LA High 74-75°F",
       side: "YES",
       contracts: 50,
       price: 0.04,
@@ -198,7 +198,7 @@ export const seedData = mutation({
     });
 
     await ctx.db.insert("trades", {
-      market: "LA 76°+",
+      market: "LA High 76°+",
       side: "YES",
       contracts: 25,
       price: 0.07,
@@ -210,15 +210,39 @@ export const seedData = mutation({
     await ctx.db.insert("activities", {
       type: "trade_opened",
       agentId: trader,
-      message: "Opened LA 76°+ YES × 25 @ 7¢",
+      message: "Opened NYC ≤23°F YES × 62 @ 4¢ ($2.65 cost)",
       missionId: kalshiMission,
-      createdAt: Date.now() - 900000,
+      createdAt: Date.now() - 7200000,
+    });
+
+    await ctx.db.insert("activities", {
+      type: "trade_opened",
+      agentId: trader,
+      message: "Opened NYC 24-25°F YES × 35 @ 7¢ ($2.61 cost)",
+      missionId: kalshiMission,
+      createdAt: Date.now() - 6600000,
+    });
+
+    await ctx.db.insert("activities", {
+      type: "trade_opened",
+      agentId: trader,
+      message: "Opened LA 74-75°F YES × 50 @ 4¢ ($2.17 cost)",
+      missionId: kalshiMission,
+      createdAt: Date.now() - 3600000,
+    });
+
+    await ctx.db.insert("activities", {
+      type: "trade_opened",
+      agentId: trader,
+      message: "Opened LA 76°+ YES × 25 @ 7¢ ($1.84 cost)",
+      missionId: kalshiMission,
+      createdAt: Date.now() - 3000000,
     });
 
     await ctx.db.insert("activities", {
       type: "task_updated",
       agentId: builder,
-      message: 'Task "Build Mission Control Dashboard" moved to in_progress',
+      message: "Mission Control dashboard deployed to Vercel",
       missionId: saasMission,
       createdAt: Date.now() - 1800000,
     });
@@ -226,16 +250,23 @@ export const seedData = mutation({
     await ctx.db.insert("activities", {
       type: "agent_status",
       agentId: hustler,
-      message: "Hustler started daily opportunity scan",
+      message: "Completed first opportunity scan — 5 revenue paths identified",
       missionId: freelanceMission,
-      createdAt: Date.now() - 3600000,
+      createdAt: Date.now() - 14400000,
     });
 
     await ctx.db.insert("activities", {
       type: "mission_update",
-      message: "Kalshi Trading revenue: $127.50 (+$12.30 today)",
+      message: "Kalshi account funded: $50 seed capital. 4 weather trades placed.",
       missionId: kalshiMission,
-      createdAt: Date.now() - 7200000,
+      createdAt: Date.now() - 10800000,
+    });
+
+    await ctx.db.insert("activities", {
+      type: "agent_status",
+      agentId: mike,
+      message: "PodifyAI MVP deployed to Vercel — full pipeline working",
+      createdAt: Date.now() - 18000000,
     });
 
     return { success: true, message: "Database seeded successfully!" };
