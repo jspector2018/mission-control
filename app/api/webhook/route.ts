@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "@/convex/_generated/api";
 
-const client = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+function getClient() {
+  return new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,7 +19,7 @@ export async function POST(request: NextRequest) {
 
     switch (action) {
       case "update_agent_status":
-        await client.mutation(api.agents.updateStatus, {
+        await getClient().mutation(api.agents.updateStatus, {
           id: data.agentId,
           status: data.status,
           currentTaskId: data.currentTaskId,
@@ -25,7 +27,7 @@ export async function POST(request: NextRequest) {
         break;
 
       case "create_task":
-        await client.mutation(api.tasks.create, {
+        await getClient().mutation(api.tasks.create, {
           title: data.title,
           description: data.description,
           priority: data.priority || "medium",
@@ -34,28 +36,28 @@ export async function POST(request: NextRequest) {
         break;
 
       case "update_task_status":
-        await client.mutation(api.tasks.updateStatus, {
+        await getClient().mutation(api.tasks.updateStatus, {
           id: data.taskId,
           status: data.status,
         });
         break;
 
       case "assign_task":
-        await client.mutation(api.tasks.assignAgent, {
+        await getClient().mutation(api.tasks.assignAgent, {
           taskId: data.taskId,
           agentId: data.agentId,
         });
         break;
 
       case "update_mission_revenue":
-        await client.mutation(api.missions.updateRevenue, {
+        await getClient().mutation(api.missions.updateRevenue, {
           id: data.missionId,
           revenue: data.revenue,
         });
         break;
 
       case "update_trade_status":
-        await client.mutation(api.trades.updateTradeStatus, {
+        await getClient().mutation(api.trades.updateTradeStatus, {
           id: data.tradeId,
           status: data.status,
           profit: data.profit,
