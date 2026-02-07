@@ -9,7 +9,7 @@ import { formatRelativeTime, getStatusColor, cn } from "@/lib/utils";
 export default function AgentsPage() {
   const agents = useQuery(api.agents.list);
   const tasks = useQuery(api.tasks.list);
-  const activities = useQuery(api.activities.listWithDetails);
+  const activities = useQuery(api.activities.listWithDetails, {});
 
   if (!agents || !tasks || !activities) {
     return (
